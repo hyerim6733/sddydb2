@@ -38,13 +38,30 @@ router.delete("/:id", function(req, res, next) {
   });
 });
 
+// router.get("/:id", function(req, res, next) {
+//   Product.collection('product').aggregate([
+//     { $lookup:
+//       {
+//         from: 'user',
+//         localField: 'userid',
+//         foreignField: 'email',
+//         as: 'userdetail'
+//       }
+//     }
+//   ]).toArray(function(err, res) {
+//     if(err) throw err;
+//     console.log(JSON.stringify(res));
+    
+//   })
+// })
+
 
 /* POST : history create */
 router.post("/:id/history", function(req, res, next) {
     newhistory = new History();
-    newhistory.rent = req.body.rent;
-    newhistory.return = req.body.return;
-    newhistory.repair = req.body.repair;
+    newhistory.rentDate = req.body.rentDate;
+    newhistory.returnDate = req.body.returnDate;
+    newhistory.repairDate = req.body.repairDate;
     newhistory.userMemo = req.body.userMemo;
     newhistory.repairMemo = req.body.repairMemo;
     newhistory.lender = req.body.lender;
