@@ -6,7 +6,7 @@ const productSchema = new mongoose.Schema({
   category : {type:Number, required: true},
   count : { type : Number, required: true}, /* 거래횟수 */
   price : { type:Number, required: true},
-  userid : {type:String, required: true}, /* Users - FK */
+  user : {type: mongoose.Schema.ObjectId, required: true, ref: 'User'}, /* Users - FK */
   content : String,
   uploadDate : { type:Date, default: Date.now },
   allowDateStart : { type:Date, default: Date.now},

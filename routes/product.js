@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var Product = require("../model/Product");
 var History = require("../model/History");
+var User = require('../model/User')
 
 /* GET users listing. */
 router.get("/", function(req, res, next) {
@@ -14,20 +15,28 @@ router.get("/", function(req, res, next) {
 
 /* POST : product create  */
 router.post("/", function(req, res, next) {
-    Product.create(req.body, function(err, product) {
-    if (err) return next(err);
-    res.json(product);
-  });
+    User.findById(req.body.userid, function(err, user){
+      Product.create({...req.body, user:user._id}, function(err, product) {
+        if (err) return next(err);
+        res.json(product);
+      });  
+    });
+
+    
 })
 
 /* 단건조회 */
 router.get("/:id", function(req, res, next) {
   console.log(req.body);
-  Product.findByIdAndUpdate(req.params.id, req.body, function(err, product) {
-    if (err) return next(err);
+  Product.findById(req.params.id).populate('user').exec(function(err, product){
     console.log(product);
-    res.json(product);
-  });
+    return res.json(product)
+  })
+  // Product.findByIdAndUpdate(req.params.id, req.body, function(err, product) {
+  //   if (err) return next(err);
+  //   console.log(product);
+  //   res.json(product);
+  // });
 });
 
 /* 하나삭제 */
