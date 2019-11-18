@@ -77,4 +77,27 @@ router.post("/:id/history", function(req, res, next) {
     );
 });
 
+
+/* POST : index ++  */
+router.post("/", function(req, res, next) {
+  Product.create(req.body, function(err, product) {
+  if (err) return next(err);
+  res.json(product);
+});
+})
+ // UPDATE THE BOOK
+ app.put('/:id', function(req, res){
+  Product.findById(req.params.id, function(err, prod){
+      if(err) return res.status(500).json({ error: 'database failure' });
+      if(!prod) return res.status(404).json({ error: 'product not found' });
+
+      if(req.body.likeCount) prod.likeCount = req.body.likeCount++;
+
+      prod.save(function(err){
+          if(err) res.status(500).json({error: 'failed to update'});
+          res.json({message: 'product updated'});
+      });
+
+  });
+});
 module.exports = router;
