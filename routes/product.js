@@ -86,7 +86,7 @@ router.post("/", function(req, res, next) {
 });
 })
  // UPDATE THE BOOK
- app.put('/:id', function(req, res){
+ router.put('/:id', function(req, res, next){
   Product.findById(req.params.id, function(err, prod){
       if(err) return res.status(500).json({ error: 'database failure' });
       if(!prod) return res.status(404).json({ error: 'product not found' });
