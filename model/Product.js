@@ -13,15 +13,7 @@ const productSchema = new mongoose.Schema({
   allowDateEnd : Date,
   likeCount : { type: Number, default : 0, index: true},
   image : String,
-  histories : [{
-      rent : Date,
-      return : Date,
-      repair : Date,
-      userMemo : String,
-      repairMemo : String,
-      lender : String,
-      rentalDays : Number
-  }]
+  area : String
 
 });
 
