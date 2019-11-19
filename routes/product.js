@@ -22,11 +22,10 @@ router.post("/", function(req, res, next) {
 
 /* 단건조회 */
 router.get("/:id", function(req, res, next) {
-  console.log(req.body);
-  Product.findByIdAndUpdate(req.params.id, req.body, function(err, product) {
-    if (err) return next(err);
-    console.log(product);
-    res.json(product);
+  Product.findById(req.params.id, function(err, prod){
+    if(err) return res.status(500).json({ error: 'database failure' });
+    if(!prod) return res.status(404).json({ error: 'product not found' });
+    res.json(prod);
   });
 });
 
@@ -57,28 +56,28 @@ router.delete("/:id", function(req, res, next) {
 
 
 /* POST : history create */
-router.post("/:id/history", function(req, res, next) {
-    newhistory = new History();
-    newhistory.rentDate = req.body.rentDate;
-    newhistory.returnDate = req.body.returnDate;
-    newhistory.repairDate = req.body.repairDate;
-    newhistory.userMemo = req.body.userMemo;
-    newhistory.repairMemo = req.body.repairMemo;
-    newhistory.lender = req.body.lender;
-    newhistory.rentalDays = req.body.rentalDays;
+// router.post("/:id/history", function(req, res, next) {
+//     newhistory = new History();
+//     newhistory.rentDate = req.body.rentDate;
+//     newhistory.returnDate = req.body.returnDate;
+//     newhistory.repairDate = req.body.repairDate;
+//     newhistory.userMemo = req.body.userMemo;
+//     newhistory.repairMemo = req.body.repairMemo;
+//     newhistory.lender = req.body.lender;
+//     newhistory.rentalDays = req.body.rentalDays;
 
-    Product.findByIdAndUpdate(
-      req.params.id,
-      { $push: { histories: newhistory } },
-      function(err, product) {
-        if (err) return next(err);
-        res.redirect(`/product/${req.params.id}`);
-      }
-    );
-});
+//     Product.findByIdAndUpdate(
+//       req.params.id,
+//       { $push: { histories: newhistory } },
+//       function(err, product) {
+//         if (err) return next(err);
+//         res.redirect(`/product/${req.params.id}`);
+//       }
+//     );
+// });
 
 
-/* POST : index ++  */
+/* POST : index ++  >???????????????? */
 router.post("/", function(req, res, next) {
   Product.create(req.body, function(err, product) {
   if (err) return next(err);
@@ -91,13 +90,17 @@ router.post("/", function(req, res, next) {
       if(err) return res.status(500).json({ error: 'database failure' });
       if(!prod) return res.status(404).json({ error: 'product not found' });
 
-      if(req.body.likeCount) prod.likeCount = req.body.likeCount++;
+      console.log(prod.likeCount);
+      console.log(prod);
+      if(prod.likeCount) prod.likeCount++;
+      else prod.likeCount = 1;
 
       prod.save(function(err){
           if(err) res.status(500).json({error: 'failed to update'});
           res.json({message: 'product updated'});
       });
 
+    });
   });
-});
+
 module.exports = router;

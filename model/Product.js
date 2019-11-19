@@ -11,7 +11,7 @@ const productSchema = new mongoose.Schema({
   uploadDate : { type:Date, default: Date.now },
   allowDateStart : { type:Date, default: Date.now},
   allowDateEnd : Date,
-  likeCount : { type: Number, default : 0, index: true},
+  likeCount : { type: Number, default: 0},
   image : String,
   area : String
 
