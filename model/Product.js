@@ -7,6 +7,7 @@ const productSchema = new mongoose.Schema({
   count : { type : Number, required: true}, /* 거래횟수 */
   price : { type:Number, required: true},
   userid : {type:String, required: true}, /* Users - FK */
+  nickname : {type:String, default: '홍길동'},
   content : String,
   uploadDate : { type:Date, default: Date.now },
   allowDateStart : { type:Date, default: Date.now},
