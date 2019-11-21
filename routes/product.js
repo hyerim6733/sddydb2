@@ -85,24 +85,6 @@ router.post("/", function(req, res, next) {
 });
 })
 
-
- // like count ++
- router.put('/:id/likeCount', function(req, res, next){
-  Product.findById(req.params.id, function(err, prod){
-      if(err) return res.status(500).json({ error: 'database failure' });
-      if(!prod) return res.status(404).json({ error: 'product not found' });
-
-      if(prod.likeCount) prod.likeCount++;
-      else prod.likeCount = 1;
-
-      prod.save(function(err){
-          if(err) res.status(500).json({error: 'failed to update'});
-          res.json({message: 'product updated'});
-      });
-
-    });
-  });
-
   // mystate change [ "대여중" <-> "대여완료" ]
  router.put('/:id/mystate', function(req, res, next){
   Product.findById(req.params.id, function(err, prod){
@@ -133,7 +115,19 @@ router.put('/:id/interest', function(req, res, next){
   Product.findById(req.params.id, function(err, prod){
       if(err) return res.status(500).json({ error: 'database failure' });
       if(!prod) return res.status(404).json({ error: 'product not found' });
-      prod.interest == 1 ? prod.interest = 0 : prod.interest = 1;
+
+      //prod.interest == 1 ? prod.interest = 0 : prod.interest = 1;
+      if(prod.interest == 1) {
+        prod.interest = 0;
+        if(prod.likeCount) prod.likeCount--;
+        else prod.likeCount = 0;
+      } 
+      else {
+        prod.interest = 1;
+        if(prod.likeCount) prod.likeCount++;
+        else prod.likeCount = 1;
+      }
+
         prod.save(function(err){
           if(err) res.status(500).json({error: 'failed to update'});
           res.json({message: 'product interest updated'});
