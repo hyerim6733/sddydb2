@@ -14,7 +14,8 @@ const productSchema = new mongoose.Schema({
   allowDateEnd : Date,
   likeCount : { type: Number, default: 0},
   image : String,
-  area : String
+  area : String,
+  mystate : String
 
 });
 
