@@ -103,15 +103,12 @@ router.post("/", function(req, res, next) {
     });
   });
 
-   // mystate change [ "대여중" <-> "대여완료" ]
+  // mystate change [ "대여중" <-> "대여완료" ]
  router.put('/:id/mystate', function(req, res, next){
   Product.findById(req.params.id, function(err, prod){
       if(err) return res.status(500).json({ error: 'database failure' });
       if(!prod) return res.status(404).json({ error: 'product not found' });
 
-      //console.log(prod);
-      console.log(prod);
-      console.log(prod.mystate);
       if(prod.mystate && prod.mystate == "대여중") { 
           prod.mystate = "대여완료";
           prod.save(function(err){
@@ -128,14 +125,19 @@ router.post("/", function(req, res, next) {
         )
       );
     }
-      
-      //{ $push: { histories: newhistory } }
-      //db.people.update( { name: "Abet" }, { $set: { age: 20 } } )
-      
+  });
+});
 
-   
-
-
+// 관심상품 interest
+router.put('/:id/interest', function(req, res, next){
+  Product.findById(req.params.id, function(err, prod){
+      if(err) return res.status(500).json({ error: 'database failure' });
+      if(!prod) return res.status(404).json({ error: 'product not found' });
+      prod.interest == 1 ? prod.interest = 0 : prod.interest = 1;
+        prod.save(function(err){
+          if(err) res.status(500).json({error: 'failed to update'});
+          res.json({message: 'product interest updated'});
+      });
   });
 });
 

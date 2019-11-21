@@ -15,8 +15,8 @@ const productSchema = new mongoose.Schema({
   likeCount : { type: Number, default: 0},
   image : String,
   area : String,
-  mystate : String
-
+  mystate : String,
+  interest : { type: Number, default: 0}    /* 0-관심X, 1-관심상품. */
 });
 
 const Product = mongoose.model("Product", productSchema);
