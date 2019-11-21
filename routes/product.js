@@ -8,18 +8,16 @@ router.get("/", function(req, res, next) {
     Product.find(function(err, products) {
         if (err) return next(err);
         res.json(products);
-      });
+      }).sort({'uploadDate': 'desc'});
 });
 var multer  = require('multer')
 const productUpload = multer({ dest: 'public/uploads/' })
 
 /* POST : product create  */
-router.post("/",  function(req, res, next) {
+router.post("/", function(req, res, next) {
 
   console.log(req.file);
-  console.log(req.data)
-  console.log('-'*30)
-  console.log(req)
+  console.log(req.data);
     Product.create(req.body, function(err, product) {
     if (err) return next(err);
     console.log(product);
