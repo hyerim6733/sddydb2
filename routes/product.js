@@ -16,6 +16,8 @@ router.get("/", function(req, res, next) {
 router.post("/", function(req, res, next) {
     Product.create(req.body, function(err, product) {
     if (err) return next(err);
+    console.log(product);
+    console.log(product.pid);
     res.json(product);
   });
 })
