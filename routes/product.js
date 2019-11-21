@@ -49,7 +49,11 @@ router.post("/", productUpload.single('file'), function(req, res, next) {
   // TODO : file 핸들링하세요.
   // TODO : 바로 uploads로 저장되어 올라갑니다.
   const file = req.file;
+  console.log(file)
+  console.log("AA")
   const data = req.body;
+  console.log(data)
+  console.log("AA")
     Product.create(req.body, function(err, product) {
     if (err) return next(err);
     console.log(product);
