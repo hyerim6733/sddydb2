@@ -10,16 +10,46 @@ router.get("/", function(req, res, next) {
         res.json(products);
       });
 });
+
+const fs = require("fs"); // Or `import fs from "fs";` with ESM
+function makeFileName(filename){
+  var [_filename, ext] = filename.split('.')
+  
+  var count = 0
+  filepath = "public/uploads/" + _filename
+  while (fs.existsSync(filepath)) {
+      filepath = "public/uploads/" + _filename + count + "." + ext
+      count ++;
+  }
+  return _filename + count;
+}
+
 var multer  = require('multer')
-const productUpload = multer({ dest: 'public/uploads/' })
+// var upload = multer({ dest: 'static/uploads/'});
+var storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'public/uploads/')
+  },
+  filename: (req, file, cb) => {
+      
+      filename = makeFileName( file.originalname)
+      
+      filedata = {
+          name : filename,
+          ext : file.mimetype.split('/')[1]
+      };
+      cb(null, filedata.name + '.' + filedata.ext)
+  }
+});
+
+const productUpload = multer({storage:storage})
 
 /* POST : product create  */
-router.post("/",  function(req, res, next) {
-
-  console.log(req.file);
-  console.log(req.data)
-  console.log('-'*30)
-  console.log(req)
+router.post("/", productUpload.single('file'), function(req, res, next) {
+  // TODO : file 핸들링하세요.
+  // TODO : 바로 uploads로 저장되어 올라갑니다.
+  const file = req.file;
+  const data = req.body;
     Product.create(req.body, function(err, product) {
     if (err) return next(err);
     console.log(product);
