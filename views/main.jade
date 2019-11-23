@@ -1,12 +1,17 @@
 html
   head
-    script
-      - function asd() {
-      -   
-      - }
-      //- //function login() {
-      //- //  window.opener.location.href="http://dev.futurepia.co.kr:8082/client/popup/login?client_key=wqe48asd5118wq1e565we41q56we15";
-      //- //}
+    style.
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        background-color: lightgreen;
+      },
+
+    script.
+      //- function test() {
+      //-   window.location.href = "http://www.naver.com/";
+      //- }
       //- function sso_sign() {
       //-   if(env == 'production') {
       //-     piaPopOpen(700,950,"https://pasta.snacpia.com/client/popup/signup","lfix_sign");
@@ -21,29 +26,21 @@ html
       //-     piaPopOpen(700,850,"http://dev.futurepia.co.kr:8082/client/popup/login","lfix_login");
       //-   }
       //- }
-      //- function piaPopOpen(Width, Height, url, retUrl) {
-      //-   if (!retUrl) relUrl = ""
-      //-   var Option="width="+Width+", height="+parseInt(Height);
+      function piaPopOpen(Width, Height, url, retUrl) {
+        if (!retUrl) relUrl = ""
+        var Option="width="+Width+", height="+parseInt(Height);
         
-      //-   var pop_title = "piaPopOpener";
-      //-   window.open("", pop_title, Option);
+        var pop_title = "piaPopOpener";
+        window.open("", pop_title, Option);
 
-      //-   var f = document.piaActFrm;
-      //-   f.gubun.value = retUrl;
-      //-   f.target = pop_title;
-      //-   f.action = "http://dev.futurepia.co.kr:8082/client/popup/login?client_key=wqe48asd5118wq1e565we41q56we15";
-      //-   f.submit();
-      //- }
-    block content
-        - var addPrefix = function(str) {
-        -   return 'prefix : ' + str;
-        - }
-        - var test = function() {
-        -   console.log('-----');
-        - }
-
-  body
-    div ㅆㄷㄷㅇ
-    p(id='ididid') asdf
+        var f = document.piaActFrm;
+        //- f.gubun.value = retUrl;
+        f.target = pop_title;
+        f.action = "http://dev.futurepia.co.kr:8082/client/popup/login?client_key=wqe48asd5118wq1e565we41q56we15";
+        f.submit();
+      }
     
-    p #{addPrefix('sgiag')}
+  body
+    form(name="piaActFrm", method="post")
+      div(onclick='piaPopOpen()', style="display: flex; background-color: pink; align-items: center; justify-content: center;")
+        div(classname="text", style="color: #4630eb; background-color: yellow; margin: auto;") ㅆㄷㄷㅇ
